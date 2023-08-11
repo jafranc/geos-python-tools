@@ -267,7 +267,7 @@ compflowStatistics, reservoir1: Phase dynamic pore volumes: { 0, 230563 } rm^3
 compflowStatistics, reservoir1: Phase mass: { 0, 2.32389e+08 } kg
 compflowStatistics, reservoir1: Trapped phase mass (metric 1): { 0, 7.43644e+07 } kg
 compflowStatistics, reservoir1: Non-trapped phase mass (metric 1): { 0, 1.58024e+08 } kg
-compflowStatistics, reservoir1: Immobile phase mass (metric 2): { 0, 0 } kg
+compflowStatistics, reservoir1: Immobile phase mass (metric 2): { 1, 0 } kg
 compflowStatistics, reservoir1: Mobile phase mass (metric 2): { 0, 2.32389e+08 } kg
 compflowStatistics, reservoir1: Dissolved component mass: { { 0, 0 }, { 232.389, 2.32389e+08 } } kg
 compflowStatistics, reservoir2: Pressure (min, average, max): 2.11314e+07, 2.2617e+07, 2.91865e+07 Pa

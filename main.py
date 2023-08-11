@@ -28,7 +28,7 @@ class LogParser:
                     drop=True)
 
         self._plot_dataframe_(values, 'time',
-                              ['mobile_0', 'immobile_0', 'dissolved_2', 'mobile_0+immobile_0+dissolved_2'])
+                              [ 'mobile_0  / immobile_0'])
 
     def _plot_dataframe_(self, values, xkey, ykeys):
         sec2day = 60 * 60 * 24
@@ -36,12 +36,13 @@ class LogParser:
 
         for k in ykeys:
             yfield = 0 * values['time']
-            if re.findall(r'\+', k):
-                subkeys = k.split('+')
-                for sk in subkeys:
-                    yfield += values[sk]
-            else:
-                yfield = values[k]
+            yfield = self.process_keys(k, values)
+            # if re.findall(r'\+', k):
+            #     subkeys = k.split('+')
+            #     for sk in subkeys:
+            #         yfield += values[sk]
+            # else:
+            #     yfield = values[k]
 
             plt.plot(values[xkey].to_numpy() / sec2day, yfield.to_numpy() / kg2Mt, '-+', label=k)
         plt.legend()
@@ -59,6 +60,26 @@ class LogParser:
     #             __operation_on_key__(values,k.split('+'))
     #         elif re.match(r'-',k):
     #             __operation_on_key__(values,k.split('-'))
+
+
+    def process_keys(self, sin, v):
+        if re.findall(r'\+', sin):
+            bits = sin.split('+')
+            bits = [ item.strip() for item in bits ]
+            return self.process_keys(bits[0],v) + self.process_keys('+'.join(bits[1:]),v)
+        elif re.findall(r'-', sin):
+            bits = sin.split('-')
+            bits = [ item.strip() for item in bits ]
+            return self.process_keys(bits[0],v) - self.process_keys('+'.join(bits[1:]),v)
+        elif re.findall(r'\*', sin):
+            bits = sin.split('*')
+            bits = [ item.strip() for item in bits ]
+            return self.process_keys(bits[0],v) * self.process_keys('*'.join(bits[1:]),v)
+        elif re.findall(r'/', sin):
+            bits = sin.split('/')
+            bits = [ item.strip() for item in bits ]
+            return self.process_keys(bits[0],v) / self.process_keys('/'.join(bits[1:]),v)
+        return v[sin]
 
     def _split_log_(self, fname):
         buffer = []
@@ -130,7 +151,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=descr)
     parser.add_argument('--log', metavar='logfile', nargs=1,
                         help='path to the logfile')
-
 
     args = parser.parse_args()
 
