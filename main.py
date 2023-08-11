@@ -28,10 +28,12 @@ class LogParser:
                     drop=True)
 
         self._plot_dataframe_(values, 'time',
-                              [ 'mobile_0  / immobile_0'])
+                              ['mobile_0', 'immobile_0', 'dissolved_2', 'mobile_0+immobile_0+dissolved_2'])
 
     def _plot_dataframe_(self, values, xkey, ykeys):
-        sec2day = 60 * 60 * 24
+        sec2hour = 60 * 60
+        sec2day = sec2hour * 24
+        sec2year = sec2day * 365
         kg2Mt = 1e3 * 1e6
 
         for k in ykeys:
@@ -44,7 +46,24 @@ class LogParser:
             # else:
             #     yfield = values[k]
 
-            plt.plot(values[xkey].to_numpy() / sec2day, yfield.to_numpy() / kg2Mt, '-+', label=k)
+            plt.plot(values[xkey].to_numpy() / sec2day, (yfield.to_numpy()-yfield.to_numpy()[-1]) / kg2Mt, '-+', label=k)
+
+#analytical for spe11b
+        # q = 0.035
+        # tn = np.linspace(0,50*sec2year,100)
+        # tn = np.append(tn,np.linspace(50*sec2year, 1000*sec2year, 10) )
+        # mn = []
+        # for i in range(len(tn)-1):
+        #     a = 0
+        #     if tn[i] < 50*sec2year:
+        #         a+=1
+        #         if tn[i] > 25*sec2year:
+        #             a+=1
+        #     mn.append((tn[i+1]-tn[i])*a*q)
+        # # plt.figure()
+        # plt.plot(tn[1:]/ sec2day, np.cumsum(mn) / kg2Mt, '-ok', label='analytics')
+
+
         plt.legend()
         plt.show()
 
