@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import re
 import pandas as pd
-from itertools import chain
+import argparse
 
 
 class LogParser:
@@ -126,6 +126,17 @@ class Mass_balances:
 
 
 if __name__ == "__main__":
-    parser = LogParser()
-    parser.process(fname='samples/slurm-spe11b-volume.out')
-    # parser.process(fname='/mnt/droplet/slurm-27086382.out')
+    descr = 'Set of python script for post-processing GEOS\n'
+    parser = argparse.ArgumentParser(description=descr)
+    parser.add_argument('--log', metavar='logfile', nargs=1,
+                        help='path to the logfile')
+
+
+    args = parser.parse_args()
+
+    if args.log:
+        parser = LogParser()
+        parser.process(fname=args.log[0])
+        # parser.process(fname='/mnt/droplet/slurm-27086382.out')
+    else:
+        parser.print_help()
