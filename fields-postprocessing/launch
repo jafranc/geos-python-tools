@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd /work/logs/spe11b/script/spe11-pt
+/usr/bin/python3.10 qd_spe11c_from_pv.py 
+
+cd ..
+/usr/bin/python3.10 spe11-pt/main.py -o out_spe11c --spe c --sparse --pvd /work/logs/spe11c/t/0/res_41908902/vtkOutput.pvd --solute /work/logs/spe11b/script/spe11-pt/data/b/fluid_CO2Solubility_co2Dissolution_table.csv --units y t bar
+
+/usr/bin/python3.10 spe11-pt/main.py -o out_spe11c --spe c --dense --pvd /work/logs/spe11c/t/0/res_41908902/vtkOutput.pvd --solute /work/logs/spe11b/script/spe11-pt/data/b/fluid_CO2Solubility_co2Dissolution_table.csv
