@@ -38,6 +38,7 @@ class LogParser:
 
             for key, exp in self.NI.expression.items():
                 nnl, value = self.NI.process(bits, exp)
+                #TODO process accepted dt and new dt by re-spliting log
                 if value is not None:
                     if isinstance(value, int) or isinstance(value, float):
                         new_row[key] = value
